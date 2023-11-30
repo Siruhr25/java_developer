@@ -1,0 +1,49 @@
+import java.util.Scanner;
+
+public class Calculator {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.print("Enter an expression (or 'exit' to quit): ");
+            String input = scanner.nextLine();
+
+            if (input.equalsIgnoreCase("exit")) {
+                System.out.println("Exiting calculator. Goodbye!");
+                break;
+            }
+
+            try {
+                double result = evaluateExpression(input);
+                System.out.println("Result: " + result);
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+        }
+
+        scanner.close();
+    }
+
+    private static double evaluateExpression(String expression) {
+        String[] tokens = expression.split(" ");
+        double operand1 = Double.parseDouble(tokens[0]);
+        double operand2 = Double.parseDouble(tokens[2]);
+        char operator = tokens[1].charAt(0);
+
+        switch (operator) {
+            case '+':
+                return operand1 + operand2;
+            case '-':
+                return operand1 - operand2;
+            case '*':
+                return operand1 * operand2;
+            case '/':
+                if (operand2 == 0) {
+                    throw new ArithmeticException("Division by zero is not allowed");
+                }
+                return operand1 / operand2;
+            default:
+                throw new IllegalArgumentException("Invalid operator: " + operator);
+        }
+    }
+}
